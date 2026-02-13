@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Products from './pages/Products';
 import Customers from './pages/Customers';
 import Sales from './pages/Sales';
+import NewSale from './pages/NewSale';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/sales" element={<Sales />} />
+            <Route path="/sales/new" element={<NewSale />} />
           </Route>
         </Routes>
       </Router>
