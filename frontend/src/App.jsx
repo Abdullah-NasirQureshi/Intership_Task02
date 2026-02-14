@@ -8,6 +8,7 @@ import Products from './pages/Products';
 import Customers from './pages/Customers';
 import Sales from './pages/Sales';
 import NewSale from './pages/NewSale';
+import Landing from './pages/Landing';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -15,10 +16,11 @@ function App() {
     <>
       <Router>
         <Routes>
+          <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<PrivateRoute />}>
-            <Route path="/" element={<Dashboard />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/products" element={<Products />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/sales" element={<Sales />} />

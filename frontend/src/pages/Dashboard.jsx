@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDashboardStats, reset } from '../redux/slices/dashboardSlice';
-import { FiPackage, FiUsers, FiShoppingCart, FiDollarSign } from 'react-icons/fi';
+import AdminAnalytics from '../components/AdminAnalytics';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { stats, isLoading, isError, message } = useSelector(
     (state) => state.dashboard
   );
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getDashboardStats());
@@ -18,56 +19,57 @@ const Dashboard = () => {
   }, [dispatch]);
 
   if (isLoading) {
-    return <div className="text-center mt-10">Loading...</div>;
+    return <div className="text-center mt-10 text-primary">Loading statistics...</div>;
   }
 
   if (isError) {
     return <div className="text-center mt-10 text-red-500">Error: {message}</div>;
   }
 
+  const isAdmin = user?.role === 'admin';
+
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow flex items-center justify-between">
-          <div>
-            <h3 className="text-gray-500 text-sm">Total Products</h3>
-            <p className="text-3xl font-bold mt-2">{stats?.totalProducts || 0}</p>
-          </div>
-          <div className="bg-blue-100 p-3 rounded-full text-blue-600">
-            <FiPackage size={24} />
-          </div>
+    <div className="text-primary">
+      <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
+      <p className="text-secondary mb-10">Welcome back, {user?.name}</p>
+
+      {/* Role-based Description */}
+      <div className="bg-white p-6 rounded-lg shadow-sm border-l-4 border-accent mb-10">
+        <h2 className="text-xl font-bold mb-2 text-primary">
+          {isAdmin ? 'Admin Panel' : 'Staff Dashboard'}
+        </h2>
+        <p className="text-gray-600">
+          {isAdmin
+            ? 'Full system access, user management, analytics.'
+            : 'Manage products, stock, customers, and sales invoices.'}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+        <div className="text-center">
+          <p className="text-5xl font-bold text-secondary">{stats?.totalProducts || 0}</p>
+          <p className="text-gray-500 mt-2 uppercase tracking-widest text-sm">Total Products</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow flex items-center justify-between">
-          <div>
-            <h3 className="text-gray-500 text-sm">Total Customers</h3>
-            <p className="text-3xl font-bold mt-2">{stats?.totalCustomers || 0}</p>
-          </div>
-          <div className="bg-green-100 p-3 rounded-full text-green-600">
-            <FiUsers size={24} />
-          </div>
+
+        <div className="text-center">
+          <p className="text-5xl font-bold text-accent">{stats?.totalCustomers || 0}</p>
+          <p className="text-gray-500 mt-2 uppercase tracking-widest text-sm">Total Customers</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow flex items-center justify-between">
-          <div>
-            <h3 className="text-gray-500 text-sm">Total Sales</h3>
-            <p className="text-3xl font-bold mt-2">{stats?.totalSales || 0}</p>
-          </div>
-          <div className="bg-purple-100 p-3 rounded-full text-purple-600">
-            <FiShoppingCart size={24} />
-          </div>
+
+        <div className="text-center">
+          <p className="text-5xl font-bold text-secondary">{stats?.totalSales || 0}</p>
+          <p className="text-gray-500 mt-2 uppercase tracking-widest text-sm">Total Sales</p>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow flex items-center justify-between">
-          <div>
-            <h3 className="text-gray-500 text-sm">Revenue</h3>
-            <p className="text-3xl font-bold mt-2">
-              ${stats?.totalRevenue?.toFixed(2) || '0.00'}
-            </p>
-          </div>
-          <div className="bg-yellow-100 p-3 rounded-full text-yellow-600">
-            <FiDollarSign size={24} />
-          </div>
+
+        <div className="text-center">
+          <p className="text-5xl font-bold text-primary">
+            ${stats?.totalRevenue?.toFixed(2) || '0.00'}
+          </p>
+          <p className="text-gray-500 mt-2 uppercase tracking-widest text-sm">Total Revenue</p>
         </div>
       </div>
+
+      {isAdmin && <AdminAnalytics stats={stats} />}
     </div>
   );
 };
