@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/dashboard';
+const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/dashboard`;
 
 // Get dashboard stats
 export const getDashboardStats = createAsyncThunk(
