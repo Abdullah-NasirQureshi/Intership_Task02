@@ -14,7 +14,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://intership-task02-cpphqsemi-abdullah-nasirs-projects-0dcd0c91.vercel.app'] // Update this after deploying to Vercel
+    ? ['https://intership-task02.vercel.app']
     : ['http://localhost:3000', 'http://localhost:5173'],
   credentials: true
 }));
