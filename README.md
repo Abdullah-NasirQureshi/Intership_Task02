@@ -2,7 +2,6 @@
 
 A MERN stack application for managing inventory, sales, and customers for small and medium-sized businesses.
 
-## Team: Omicron
 
 ## Project Duration
 17th Jan to 16th Feb, 2026
@@ -42,6 +41,3 @@ npm start
 - Sales invoice generation
 - Customer management
 - Reports and dashboards
-
-## Project Structure
-See folder structure below for detailed organization.
